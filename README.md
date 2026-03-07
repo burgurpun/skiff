@@ -6,7 +6,7 @@ Flatpak manifest for building a local flatpak bundle of Shipwright that builds f
 https://github.com/HarbourMasters/Shipwright
 
 ### Requirements
-- A Linux install. 
+- Run from Linux install. 
 - Flatpak & flatpak-builder packages installed.
 - Flathub repo added.
 - both Flathub packages installed.
@@ -32,7 +32,7 @@ Make the script executable
 
 `chmod +x build-shipwright.sh`
 
-Run the build - alternatively manually run the included commands. 
+Run the build (alternatively manually run the included commands). 
 
 `./build-shipwright.sh`
 
@@ -47,5 +47,5 @@ Launch the installed app from app menu, or:
 `flatpak run com.harbourmasters.Shipwright`
 
 ### Known issue
-If running from terminal, it will generate the config files from current directory. 
-Change back to home or ~ before running app.
+- If running installed app from terminal, it will generate the config files from current directory. Change back to home or ~ before running app.
+- the flatpak-builder --install-deps-from=flathub flag was giving me errors. Omitted and added to requirements instead.
