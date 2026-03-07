@@ -24,9 +24,9 @@ Result: After the script finishes, you will have com.harbourmasters.Shipwright.f
 
 Clone the repository
 
-`git clone <this repo>`
+`git clone <this repo URL>`
 
-`cd [REPO_NAME]`
+`cd skiff`
 
 Make the script executable
 
