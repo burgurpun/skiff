@@ -4,7 +4,11 @@
 Flatpak manifest for building a local flatpak bundle of Shipwright that builds from source.
 The manifest also handles the .desktop file and icon required for normal install, no other files needed except the shared-modules repo. 
 
+After install, configs & other folders like Mods should be under `~/games/ShipOfHarkinian`
+See known issues for more info. 
+
 https://github.com/HarbourMasters/Shipwright
+https://www.shipofharkinian.com/
 
 ### Requirements
 - Run from Linux install. 
