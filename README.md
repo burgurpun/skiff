@@ -14,9 +14,6 @@ https://github.com/HarbourMasters/Shipwright
     - com.freedesktop.Sdk (25.08)
 
 ### Build Script (flatpak-build.sh)
-- Prerequisite check. Verifies that flatpak and flatpak-builder are installed. If not, it prints an install hint for Debian/Ubuntu, Fedora, or Arch.
-- Flathub remote. Adds the Flathub repository (if it isn't already present) so the required runtimes/SDKs can be pulled.
-- Install SDKs. Installs the latest Freedesktop Platform & SDK (adjust the version number if you need a newer one).
 - Clean workspace. Deletes any previous soh-repo, build-dir, and .flatpak-builder directories to guarantee a fresh build.
 - Run flatpak-builder. Consumes the com.harbourmasters.Shipwright.yml manifest, producing a local repository (soh-repo).
 - Bundle. Calls flatpak build-bundle to create a single distributable .flatpak file.
