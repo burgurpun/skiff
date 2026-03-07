@@ -48,3 +48,7 @@ Launch the installed app from app menu, or:
 `cd ~`
 
 `flatpak run com.harbourmasters.Shipwright`
+
+### Known issue
+If running from terminal, it will generate the config files from current directory. 
+Change back to home or ~ before running app.
