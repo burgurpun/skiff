@@ -1,5 +1,5 @@
 # skiff
-## A Ship of Harkinian Flatpak
+## A (unofficial) Ship of Harkinian Flatpak
 
 Flatpak manifest for building a local flatpak bundle of Shipwright that builds from source.
 The manifest also handles the .desktop file and icon required for normal install, no other files needed except the shared-modules repo. 
