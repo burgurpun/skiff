@@ -1,0 +1,257 @@
+app-id: com.harbourmasters.Shipwright
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'  # UPDATEME - Choose latest
+sdk: org.freedesktop.Sdk
+command: soh.elf
+build-options:
+  build-args:
+  - --share=network # Main build pulls other repos like https://github.com/ocornut/imgui
+
+# Flatpak sandbox permissions - these can be changed after install with apps like FlatSeal. 
+finish-args: 
+  # X11 or Wayland display
+  #- --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11 # tries wayland then x11
+  # Audio
+  - --socket=pulseaudio
+  # Access to the DRM device for direct rendering
+  - --device=dri 
+  - --device=input # should handle most controllers
+  # Share the host's IPC (needed by many GL/Vulkan apps)
+  - --share=ipc
+  # - --share=network # SoH needs to be compiled with network support for this to work
+  # Files
+  - --filesystem=home # It needs home access, selecting a single folder makes the SHIP_HOME not work
+  - --filesystem=~/games/ShipOfHarkinian # Redundant but may help user locate files
+
+  ### Where SoH generates its configs ### Bug
+  # It takes this as a string no matter what, without wrapper script this will generate the folder where the command is run. 
+  # If running via desktop entry this creates a folder under ~/games/ShipOfHarkinian as expected.
+  # If running from terminal under Documents, it creates the folders there ~/Documents/games/Ship....
+  - --env=SHIP_HOME=games/ShipOfHarkinian 
+  #- --env=SHIP_HOME=$XDG_DATA_HOME/soh # does not work withoiut wrapper script same with ${HOME}
+  #- --env=SHIP_BIN_DIR=/app/bin # Don't think this is required.
+
+modules:
+  # Allow cmake to find OS string
+  - name: lsb_release
+    buildsystem: simple
+    cleanup:
+      - /share/man
+      - /share/doc      
+    build-commands:
+      - make
+      - make install INSTALL_ROOT=${FLATPAK_DEST}
+    sources:
+      - type: archive
+        url: https://github.com/thkukuk/lsb-release_os-release/releases/download/v3.3/lsb-release-3.3.tar.gz
+        sha256: b42c842e98d5fc875b5c8c23784aed891a8e771b6bb8302b7dbe77e676c50ea9
+
+  ##########################
+  ### Cmake Requirements ###
+  ##########################
+  # Modules not included in default Flatpak SDK
+  # Latest releases when available
+
+  ### Shared modules from Flatpak repo https://github.com/flathub/shared-modules
+  - shared-modules/glew/glew.json
+  - shared-modules/glu/glu-9.json
+  - shared-modules/SDL2/SDL2_image.json
+  - shared-modules/SDL2/SDL2_ttf.json
+
+
+  - name: glfw
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DBUILD_DOCS=OFF
+    cleanup:
+      - /share/man
+      - /share/doc      
+    sources:
+      - type: archive
+        url: https://github.com/glfw/glfw/releases/download/3.4/glfw-3.4.zip
+        sha256: b5ec004b2712fd08e8861dc271428f048775200a2df719ccf575143ba749a3e9
+
+  - name: libzip
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DBUILD_DOCS=OFF
+    cleanup:
+      - /share/man
+      - /share/doc      
+    sources:
+      - type: archive
+        url: https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.gz
+        sha256: 82e9f2f2421f9d7c2466bbc3173cd09595a88ea37db0d559a9d0a2dc60dc722e
+
+  - name: opusfile
+    buildsystem: autotools
+    build-options:
+      config-opts:
+        - --disable-tests
+        - --disable-docs
+    cleanup:
+      - /share/man
+      - /share/doc      
+    sources:
+      - type: archive
+        url: https://github.com/xiph/opusfile/releases/download/v0.12/opusfile-0.12.tar.gz
+        sha256: 118d8601c12dd6a44f52423e68ca9083cc9f2bfe72da7a8c1acb22a80ae3550b
+
+  - name: vorbis
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DBUILD_DOCS=OFF
+    cleanup:
+      - /share/man
+      - /share/doc      
+    sources:
+      - type: archive
+        url: https://github.com/xiph/vorbis/releases/download/v1.3.7/libvorbis-1.3.7.tar.gz
+        sha256: 0e982409a9c3fc82ee06e08205b1355e5c6aa4c36bca58146ef399621b0ce5ab
+
+  - name: nlohmann-json
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DJSON_BuildTests=OFF
+      - -DBUILD_TESTING=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DBUILD_DOCS=OFF
+    cleanup:
+      - /share/man
+      - /share/doc
+      - /share/cmake     
+    sources:
+      - type: archive
+        url: https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz
+        sha256: 4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187
+
+  - name: tinyxml2
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DBUILD_DOCS=OFF
+    cleanup:
+      - /share/man
+      - /share/doc      
+    sources:
+      - type: archive
+        url: https://github.com/leethomason/tinyxml2/archive/refs/tags/11.0.0.tar.gz
+        sha256: 5556deb5081fb246ee92afae73efd943c889cef0cafea92b0b82422d6a18f289
+
+  - name: spdlog
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DBUILD_DOCS=OFF
+    cleanup:
+      - /share/man
+      - /share/doc        
+    sources:
+      - type: archive
+        url: https://github.com/gabime/spdlog/archive/refs/tags/v1.17.0.tar.gz
+        sha256: d8862955c6d74e5846b3f580b1605d2428b11d97a410d86e2fb13e857cd3a744
+
+  ######################
+  ### Linux specific ###
+  ######################
+
+  - name: imagemagick # Linux builds referece imagemagick
+    buildsystem: autotools
+    build-options:
+      config-opts: 
+        - --disable-opencl
+        - --with-modules
+        - --with-png
+        - --with-threads
+        - --without-gslib
+        - --without-fftw
+        - --without-wmf
+        - --without-lcms
+        - --without-perl
+        - --without-x
+        - --disable-docs
+        - --disable-tests
+    cleanup:
+      - /share/man
+      - /share/doc
+      - /share/ImageMagick-*
+      - /etc/ImageMagick-*
+    sources:
+      - type: archive
+        url: https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.2-15.tar.gz
+        sha256: bf646e7fffdf50b7d886eec6bbe51c3ced1c4d68fbabfcc534e014575359fe7f
+
+  ##################
+  ### Main Build ###
+  ##################
+
+  - name: shipwright
+    buildsystem: simple                     
+    sources:
+      - type: git
+        url: https://github.com/HarbourMasters/Shipwright.git
+        tag: 9.1.2 # UPDATEME latest version when possible
+    build-commands: 
+      # Supplied SoH build instructions
+      - git submodule update --init
+      - cmake -H. -Bbuild-cmake -GNinja
+      - cmake --build build-cmake --target GenerateSohOtr
+      - cmake --build build-cmake --config Release
+
+      ### Debug
+      #- ls
+      #- ls ${FLATPAK_DEST}
+      #- ls ${FLATPAK_DEST}/bin
+      #- ls ${FLATPAK_BUILDER_BUILDDIR}
+      ####
+
+      # Install compiled binaries in flatpak location
+      - install -Dm755 ${FLATPAK_BUILDER_BUILDDIR}/build-cmake/soh/soh.elf ${FLATPAK_DEST}/bin/soh.elf
+      - install -Dm755 ${FLATPAK_BUILDER_BUILDDIR}/build-cmake/soh/soh.o2r ${FLATPAK_DEST}/bin/soh.o2r
+      - mv ${FLATPAK_BUILDER_BUILDDIR}/build-cmake/soh/assets ${FLATPAK_DEST}/bin/assets
+      - install -Dm644 ${FLATPAK_BUILDER_BUILDDIR}/build-cmake/gamecontrollerdb.txt ${FLATPAK_DEST}/bin/gamecontrollerdb.txt
+      # Compiled ZAPD to Flatpak dir, mirrors AppImage build
+      - install -Dm755 ${FLATPAK_BUILDER_BUILDDIR}/build-cmake/ZAPD/ZAPD.out ${FLATPAK_DEST}/bin/assets/extractor/ZAPD.out
+
+      # Debug
+      #- ls ${FLATPAK_DEST}/bin 
+    post-install:
+      ## SoH icon
+      - install -Dm644 ${FLATPAK_BUILDER_BUILDDIR}/build-cmake/sohIcon.png ${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/com.harbourmasters.Shipwright.png
+
+      ## SoH Desktop File
+      # Create an empty file
+      - touch ./new.desktop
+
+      # Populate the placeholder with the Desktop Entry contents
+      - echo '[Desktop Entry]'                > ./new.desktop
+      - echo 'Name=Ship of Harkinian (SoH)'   >> ./new.desktop
+      - echo 'Comment=https://www.shipofharkinian.com/' >> ./new.desktop
+      - echo 'Exec=soh.elf %U' >> ./new.desktop
+      - echo 'Icon=com.harbourmasters.Shipwright' >> ./new.desktop
+      - echo 'Terminal=false'                >> ./new.desktop
+      - echo 'Type=Application'              >> ./new.desktop
+      - echo 'Categories=Game;'              >> ./new.desktop
+      - echo 'StartupNotify=true'            >> ./new.desktop
+      - echo 'Keywords=zelda;soh;ship;'      >> ./new.desktop
+      
+      # install created linux desktop file in expected place
+      - install -Dm644 ./new.desktop ${FLATPAK_DEST}/share/applications/com.harbourmasters.Shipwright.desktop
+  
