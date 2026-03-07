@@ -8,6 +8,7 @@ After install, configs & other folders like Mods should be under `~/games/ShipOf
 See known issues for more info. 
 
 https://github.com/HarbourMasters/Shipwright
+
 https://www.shipofharkinian.com/
 
 ### Requirements
