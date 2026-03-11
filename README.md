@@ -54,7 +54,7 @@ Launch the installed app from app menu, or:
 `flatpak run com.harbourmasters.Shipwright`
 
 ### Known issue
-- RUNNING: If running installed app from terminal, it will generate the config files from current directory. Change back to home or ~ before running app.
+- RUNNING: Use app menu entry! If running installed app from terminal, it will generate the config files from current directory. Change back to home or ~ (cd ~) before running app.
 - BUILD: the flatpak-builder --install-deps-from=flathub flag was giving me errors. Omitted and added to requirements instead.
 - BUILD: missing metadata XML. https://docs.flathub.org/docs/for-app-authors/metainfo-guidelines 
 - BUILD: not 100% sure of cleanup or build flags. Built Flatpak file is ~29MB.
