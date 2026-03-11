@@ -1,4 +1,4 @@
-# skiff
+# skiff.
 ## A (unofficial) Ship of Harkinian Flatpak
 
 Flatpak manifest for building a local flatpak bundle of Shipwright that builds from source.
@@ -36,11 +36,11 @@ Clone the repository
 
 Make the script executable
 
-`chmod +x build-shipwright.sh`
+`chmod +x ./flatpak-build.sh`
 
 Run the build (alternatively manually run the included commands). 
 
-`./build-shipwright.sh`
+`./flatpak-build.sh`
 
 Install the resulting Flatpak
 
@@ -57,5 +57,7 @@ Launch the installed app from app menu, or:
 - BUILD: the flatpak-builder --install-deps-from=flathub flag was giving me errors. Omitted and added to requirements instead.
 - BUILD: missing metadata XML. https://docs.flathub.org/docs/for-app-authors/metainfo-guidelines 
 - BUILD: not 100% sure of cleanup or build flags. Built Flatpak file is ~29MB.
-- SOURCES: Missing License files required for Flathub publishing (Zelda decomp).
--  
+
+### FlatHub store Specific: 
+- Missing License files required for Flathub publishing (Zelda decomp).
+- Builds cannot use network. The main build (and sub modules) pulls different repos such as ImgUI, StormLib. This manifest would need to download specific versions manually prior to main build. 
