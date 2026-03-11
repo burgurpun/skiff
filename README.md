@@ -11,7 +11,8 @@ https://github.com/HarbourMasters/Shipwright
 
 https://www.shipofharkinian.com/
 
-### Requirements
+### Requirements (to build flatpak bundle)
+- Fast CPU, 8+ GB of RAM.
 - Run from Linux install. 
 - Flatpak & flatpak-builder packages installed.
 - Flathub repo added.
