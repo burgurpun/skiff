@@ -1,4 +1,4 @@
-# skiff.
+# skiff
 ## A (unofficial) Ship of Harkinian Flatpak
 
 Flatpak manifest for building a local flatpak bundle of Shipwright that builds from source.
