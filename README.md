@@ -61,4 +61,4 @@ Launch the installed app from app menu, or:
 
 ### FlatHub store Specific: 
 - Missing License files required for Flathub publishing (Zelda decomp).
-- Builds cannot use network. The main build (and sub modules) pulls different repos such as ImgUI, StormLib. This manifest would need to download specific versions manually prior to main build. 
+- Builds cannot use network. The main build (and sub modules) pulls different repos such as ImgUI, StormLib. This manifest would need to download specific versions manually prior to main build. (https://github.com/Kenix3/libultraship/issues/1016)
