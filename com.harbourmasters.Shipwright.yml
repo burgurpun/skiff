@@ -17,7 +17,7 @@ finish-args:
   - --socket=pulseaudio
   # Access to the DRM device for direct rendering
   - --device=dri 
-  - --device=input # should handle most controllers
+  - --device=usb # should handle most controllers
   # Share the host's IPC (needed by many GL/Vulkan apps)
   - --share=ipc
   # - --share=network # SoH needs to be compiled with network support for this to work
