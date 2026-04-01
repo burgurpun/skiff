@@ -207,7 +207,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/HarbourMasters/Shipwright.git
-        tag: 9.1.2 # UPDATEME latest version when possible
+        tag: 9.2.1 # UPDATEME latest version when possible
     build-commands: 
       # Supplied SoH build instructions
       - git submodule update --init
